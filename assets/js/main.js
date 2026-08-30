@@ -1,28 +1,20 @@
-/* ==========================================================================
-   Marli Cabeleireira - Pouso Alegre/MG
-   Interacoes da landing page
-   ==========================================================================
-   Para alterar o numero ou a mensagem do WhatsApp, edite apenas o bloco
-   CONFIG abaixo. Todos os botoes da pagina sao montados a partir dele.
-   -------------------------------------------------------------------------- */
-
 (function () {
   'use strict';
 
-  /* ---------------------------------------------------------------- CONFIG */
+  /* CONFIG */
   var CONFIG = {
-    // Numero no formato internacional, apenas digitos: 55 + DDD + numero
+    // Numero no formato internacional
     whatsapp: '5535998323042',
 
     // Mensagem padrao (botoes gerais, botao flutuante, rodape)
     mensagem: 'Olá, Marli! Gostaria de agendar um horário. Poderia me informar os horários disponíveis?',
 
-    // Mensagem dos botoes dos cards de servico. {servico} e substituido
+    // Mensagem dos botoes dos cards de servico.
     // pelo nome do servico do card.
     mensagemServico: 'Olá, Marli! Gostaria de agendar um horário para {servico}. Poderia me informar os horários disponíveis?'
   };
 
-  /* ------------------------------------------------------------- utilidades */
+  /*  utilidades */
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
 
@@ -34,7 +26,7 @@
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
     : false;
 
-  /* ------------------------------------------------- 1. Links do WhatsApp */
+  /* 1. Links do WhatsApp */
   $$('[data-wa]').forEach(function (el) {
     var servico = el.getAttribute('data-servico');
     var texto = servico
@@ -46,7 +38,7 @@
     el.setAttribute('rel', 'noopener');
   });
 
-  /* ------------------------------------------------------- 2. Menu mobile */
+  /* 2. Menu mobile */
   var header = $('.site-header');
   var toggle = $('#navToggle');
   var panel = $('#navPanel');
@@ -90,7 +82,7 @@
     });
   }
 
-  /* ------------------------------- 3. Cabecalho + botao flutuante no scroll */
+  /* 3. Cabecalho + botao flutuante no scroll */
   var waFloat = $('#waFloat');
 
   function aoRolar() {
@@ -136,7 +128,7 @@
     });
   }, { passive: true });
 
-  /* ------------------------------------------- 4. Rolagem suave (fallback) */
+  /* 4. Rolagem suave (fallback) */
   $$('a[href^="#"]').forEach(function (a) {
     var alvoId = a.getAttribute('href');
     if (!alvoId || alvoId === '#') return;
@@ -154,7 +146,7 @@
     });
   });
 
-  /* ------------------------------------------- 5. Animacoes de entrada */
+  /* 5. Animacoes de entrada */
   var reveals = $$('.reveal');
 
   if (!('IntersectionObserver' in window) || reduzirMovimento) {
@@ -178,7 +170,7 @@
     reveals.forEach(function (el) { observador.observe(el); });
   }
 
-  /* --------------------------------------- 6. Link ativo na navegacao */
+  /* 6. Link ativo na navegacao */
   var secoes = ['inicio', 'sobre', 'servicos', 'localizacao']
     .map(function (id) { return document.getElementById(id); })
     .filter(Boolean);
@@ -199,7 +191,7 @@
     secoes.forEach(function (s) { spy.observe(s); });
   }
 
-  /* ------------------------------------------------- 7. Ano no rodape */
+  /* 7. Ano no rodape */
   var ano = $('#ano');
   if (ano) ano.textContent = new Date().getFullYear();
 
