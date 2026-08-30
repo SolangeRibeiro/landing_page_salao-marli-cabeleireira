@@ -1,11 +1,4 @@
-/* ==========================================================================
-   Marli Cabeleireira - Pouso Alegre/MG
-   Folha de estilo principal
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   1. Design tokens
-   -------------------------------------------------------------------------- */
+/*  1. Design tokens */
 :root{
   /* Lilas - cor principal da identidade */
   --lilac-25:#FCFAFE;
@@ -65,9 +58,7 @@
   --ease-out:cubic-bezier(.16,1,.3,1);
 }
 
-/* --------------------------------------------------------------------------
-   2. Reset / base
-   -------------------------------------------------------------------------- */
+/* 2. Reset / base */
 *,*::before,*::after{box-sizing:border-box}
 *{margin:0}
 
@@ -129,9 +120,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
 }
 
-/* --------------------------------------------------------------------------
-   3. Utilitarios de layout
-   -------------------------------------------------------------------------- */
+/* 3. Utilitarios de layout */
 .container{
   width:100%;
   max-width:var(--container);
@@ -163,9 +152,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 /* Icones */
 .ico{width:1em;height:1em;flex:none}
 
-/* --------------------------------------------------------------------------
-   4. Botoes e microinteracoes
-   -------------------------------------------------------------------------- */
+/* 4. Botoes e microinteracoes */
 .btn{
   position:relative;
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
@@ -238,9 +225,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 
 .btn-row{display:flex;flex-wrap:wrap;gap:14px}
 
-/* --------------------------------------------------------------------------
-   5. Cabecalho / navegacao
-   -------------------------------------------------------------------------- */
+/* 5. Cabecalho / navegacao */
 .site-header{
   position:fixed;top:0;left:0;right:0;z-index:60;
   background:rgba(251,249,252,.72);
@@ -361,9 +346,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .nav-panel__list a .ico{color:var(--lilac-400);font-size:1rem}
 .nav-panel .btn{margin-top:22px}
 
-/* --------------------------------------------------------------------------
-   6. Hero
-   -------------------------------------------------------------------------- */
+/* 6. Hero */
 .hero{
   position:relative;
   padding-top:clamp(122px,15vw,170px);
@@ -486,9 +469,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   50%{opacity:.9;transform:scale(1.06) rotate(8deg)}
 }
 
-/* --------------------------------------------------------------------------
-   7. Sobre
-   -------------------------------------------------------------------------- */
+/* 7. Sobre */
 .about{
   background:
     radial-gradient(620px 420px at 6% 12%, rgba(240,231,249,.85), transparent 62%),
@@ -577,9 +558,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 }
 .pillar__desc{display:block;font-size:.82rem;line-height:1.55;color:var(--ink-faint);margin-top:3px}
 
-/* --------------------------------------------------------------------------
-   8. Servicos
-   -------------------------------------------------------------------------- */
+/* 8. Servicos */
 .services{
   background:
     radial-gradient(760px 500px at 92% 0%, rgba(203,176,231,.55), transparent 62%),
@@ -735,9 +714,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .services__note strong{color:var(--plum-700);font-weight:500}
 .services__note .ico{color:var(--lilac-500);font-size:1.05rem;margin-top:5px}
 
-/* --------------------------------------------------------------------------
-   8b. Marcas usadas no salao
-   -------------------------------------------------------------------------- */
+/* 8b. Marcas usadas no salao */
 .brands{
   padding-block:clamp(46px,5.5vw,78px);
   background:linear-gradient(180deg,var(--lilac-25) 0%,#fff 55%,var(--lilac-25) 100%);
@@ -800,7 +777,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   .brands__nome small{font-size:.46rem;letter-spacing:.3em}
 }
 
-/* Pacote para eventos ------------------------------------------------------ */
+/* Pacote para eventos  */
 .package{
   position:relative;overflow:hidden;
   display:grid;
@@ -884,9 +861,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   .package__note{max-width:none}
 }
 
-/* --------------------------------------------------------------------------
-   9. Faixa de destaque (CTA)
-   -------------------------------------------------------------------------- */
+/* 9. Faixa de destaque (CTA) */
 .cta-band{
   position:relative;overflow:hidden;
   background:linear-gradient(125deg,var(--lilac-600) 0%,var(--plum-700) 44%,var(--plum-900) 100%);
@@ -908,9 +883,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .cta-band .lede{color:rgba(255,255,255,.82);max-width:46ch;margin-inline:auto}
 .cta-band .btn-row{justify-content:center;margin-top:34px}
 
-/* --------------------------------------------------------------------------
-   10. Galeria
-   -------------------------------------------------------------------------- */
+/* 10. Galeria */
 .gallery{
   background:
     radial-gradient(700px 380px at 50% 0%, rgba(240,231,249,.8), transparent 66%),
@@ -962,9 +935,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   margin-top:26px;text-align:center;font-size:.82rem;color:var(--ink-faint);
 }
 
-/* --------------------------------------------------------------------------
-   11. Localizacao
-   -------------------------------------------------------------------------- */
+/* 11. Localizacao */
 .location{
   background:
     radial-gradient(680px 420px at 88% 92%, rgba(203,176,231,.45), transparent 62%),
@@ -1020,9 +991,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .map__fallback strong{font-family:var(--font-display);font-size:1.05rem;font-weight:600}
 .map__fallback p{font-size:.86rem;color:var(--ink-faint);max-width:32ch}
 
-/* --------------------------------------------------------------------------
-   12. Agendamento
-   -------------------------------------------------------------------------- */
+/* 12. Agendamento */
 .booking{
   background:
     radial-gradient(760px 420px at 50% 100%, rgba(240,231,249,.7), transparent 68%),
@@ -1067,9 +1036,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .booking .btn{margin-top:26px}
 .booking__hint{margin-top:20px;font-size:.8rem;color:var(--ink-faint)}
 
-/* --------------------------------------------------------------------------
-   13. Rodape
-   -------------------------------------------------------------------------- */
+/* 13. Rodape */
 .site-footer{
   background:linear-gradient(180deg,var(--plum-900),var(--plum-950));
   color:rgba(255,255,255,.62);
@@ -1116,9 +1083,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   font-size:.82rem;color:rgba(255,255,255,.5);
 }
 
-/* --------------------------------------------------------------------------
-   14. Botao flutuante de WhatsApp
-   -------------------------------------------------------------------------- */
+/* 14. Botao flutuante de WhatsApp */
 .wa-float{
   position:fixed;
   right:clamp(16px,3vw,28px);
@@ -1155,9 +1120,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 }
 .wa-float__label{white-space:nowrap}
 
-/* --------------------------------------------------------------------------
-   15. Animacoes de entrada
-   -------------------------------------------------------------------------- */
+/* 15. Animacoes de entrada */
 .js .reveal{
   opacity:0;
   transform:translateY(26px);
@@ -1167,9 +1130,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .js .reveal--zoom{transform:translateY(18px) scale(.975)}
 .js .reveal--zoom.is-in{transform:none}
 
-/* --------------------------------------------------------------------------
-   16. Responsivo
-   -------------------------------------------------------------------------- */
+/* 16. Responsivo */
 @media (min-width:700px){
   .gallery__grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 }
