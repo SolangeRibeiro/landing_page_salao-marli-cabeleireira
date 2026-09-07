@@ -29,6 +29,8 @@ profissional. Nada foi inventado.
 - **Menu fixo** com scrollspy e menu hambúrguer no celular.
 - **Galeria** com fotos reais do salão e imagens ilustrativas dos serviços.
 - **Mapa** do Google incorporado, com fallback quando não carrega.
+- **Dúvidas frequentes** em `<details>` nativo, sem JavaScript, com marcação
+  FAQPage para os resultados enriquecidos do Google.
 - **Animações de entrada** discretas, desligadas automaticamente para quem usa
   `prefers-reduced-motion`.
 
@@ -49,9 +51,11 @@ forma contínua em vez de saltar nos pontos de virada.
 
 **Alvos de toque.** Todos os elementos interativos têm no mínimo 44px de altura.
 
-**SEO local.** Dados estruturados `HairSalon` (schema.org) com endereço, telefone,
-faixa de preço e catálogo de serviços; meta tags Open Graph; headings hierárquicos;
-`alt` em todas as imagens.
+**SEO local.** Dados estruturados `HairSalon` e `FAQPage` (schema.org) com endereço,
+telefone, faixa de preço e catálogo de serviços; meta tags Open Graph; headings
+hierárquicos; `alt` em todas as imagens. Inclui também `llms.txt`, que descreve o
+salão em texto simples para assistentes de IA — hoje um caminho real de descoberta,
+ao lado da busca tradicional.
 
 **Acessibilidade.** Navegação por teclado, foco visível, link "pular para o conteúdo",
 `aria-expanded` no menu e contraste conferido.
@@ -62,6 +66,7 @@ faixa de preço e catálogo de serviços; meta tags Open Graph; headings hierár
 .
 ├── index.html                 # toda a página
 ├── robots.txt / sitemap.xml   # SEO
+├── llms.txt                   # descrição do salão para assistentes de IA
 └── assets/
     ├── css/styles.css         # design tokens, componentes, responsividade
     ├── js/main.js             # menu, animações, links do WhatsApp

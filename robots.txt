@@ -1,4 +1,27 @@
+# robots.txt — Marli Cabeleireira
+# https://www.marlicabeleireira.com.br
+
+# Buscadores e assistentes de IA: liberado para indexar o site inteiro.
 User-agent: *
 Allow: /
 
 Sitemap: https://www.marlicabeleireira.com.br/sitemap.xml
+
+# --------------------------------------------------------------------------
+# Para BLOQUEAR o treinamento de IA com o conteúdo do site, descomente abaixo.
+# (Deixe comentado se quiser que o salão apareça nas respostas do ChatGPT,
+#  Claude, Perplexity e afins — para um salão local, normalmente é o que
+#  interessa: são mais um caminho de gente procurando cabeleireira na região.)
+#
+# User-agent: GPTBot
+# Disallow: /
+#
+# User-agent: ClaudeBot
+# Disallow: /
+#
+# User-agent: Google-Extended
+# Disallow: /
+#
+# User-agent: CCBot
+# Disallow: /
+# --------------------------------------------------------------------------
