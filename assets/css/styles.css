@@ -1134,10 +1134,23 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 
 .site-footer__bottom{
   border-top:1px solid rgba(255,255,255,.1);
-  padding-block:24px;
+  padding-block:24px 6px;
   display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
   font-size:.82rem;color:rgba(255,255,255,.5);
 }
+/* linha propria: o botao flutuante cobre o canto direito do rodape */
+.footer__credit{
+  padding-bottom:14px;
+  font-size:.78rem;color:rgba(255,255,255,.42);
+}
+.footer__credit a{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;
+  transition:color .3s var(--ease);
+}
+.footer__credit a:hover{color:#fff}
+.footer__credit .ico{font-size:.95rem;color:var(--lilac-400)}
+.footer__credit a:hover .ico{color:#fff}
 
 /* 14. Botao flutuante de WhatsApp */
 .wa-float{
@@ -1261,6 +1274,7 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   .site-footer__grid{grid-template-columns:1fr;gap:34px}
   .footer__desc{max-width:none}
   .site-footer__bottom{justify-content:center;text-align:center}
+  .footer__credit{text-align:center}
 
   /* botao flutuante compacto no celular */
   .wa-float{padding:12px;gap:0}
