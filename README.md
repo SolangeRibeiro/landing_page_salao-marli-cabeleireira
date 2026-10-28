@@ -7,6 +7,8 @@ Construída em HTML, CSS e JavaScript puros, sem frameworks, sem dependências e
 
 🔗 **[marli-cabeleireira.netlify.app](https://marli-cabeleireira.netlify.app)**
 
+Desenvolvido por **Solange Ribeiro** · [github.com/SolangeRibeiro](https://github.com/SolangeRibeiro)
+
 ---
 
 ## Sobre o projeto
@@ -102,6 +104,14 @@ var CONFIG = {
 
 **Preços e serviços:** cada serviço é um `<article class="service">` em `index.html`.
 Ao alterar um valor, atualize também o bloco `application/ld+json` do `<head>`.
+
+## Autoria
+
+Projeto desenvolvido por Solange Ribeiro — da conversa com a profissional
+e a coleta do conteúdo até o código, o SEO local e a publicação.
+
+- GitHub: [@SolangeRibeiro](https://github.com/SolangeRibeiro)
+- Repositório: [landing_page_salao-marli-cabeleireira](https://github.com/SolangeRibeiro/landing_page_salao-marli-cabeleireira)
 
 ## Créditos
 
