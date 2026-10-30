@@ -373,6 +373,48 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
      ev.some(e => e.nome === 'contato-axis'), JSON.stringify(ev));
   await ctxL2.close();
 
+  // ---------- 20. imagens em WebP e previa de compartilhamento ----------
+  console.log('\n[20] Imagens em WebP e previa de compartilhamento');
+  const ctxW = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  const pW = await ctxW.newPage();
+  const pedidosTopo = [];
+  // so carregamentos de imagem da pagina; os fetch() de conferencia mais abaixo nao contam
+  pW.on('request', r => { if (r.resourceType() === 'image' && /hero-cabeleireira-marli\.(jpg|webp)/.test(r.url())) pedidosTopo.push(r.url().split('/').pop()); });
+  await pW.goto(BASE, { waitUntil: 'load' });
+  const altW = await pW.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y < altW; y += 700) { await pW.evaluate(v => window.scrollTo(0, v), y); await pW.waitForTimeout(120); }
+  await pW.waitForFunction(() => Array.from(document.images).every(i => i.complete), null, { timeout: 20000 });
+
+  const imgsW = await pW.$$eval('img', els => els.map(e => ({
+    src: e.getAttribute('src'), atual: e.currentSrc,
+    noPicture: e.parentElement.tagName === 'PICTURE',
+    webp: e.parentElement.tagName === 'PICTURE' ? (e.parentElement.querySelector('source[type="image/webp"]') || {}).getAttribute?.('srcset') : null })));
+  ok('todas as ' + imgsW.length + ' imagens estao dentro de <picture> com versao WebP',
+     imgsW.every(i => i.noPicture && i.webp), imgsW.filter(i => !i.noPicture || !i.webp).map(i => i.src).join(' | '));
+  ok('o navegador escolhe o WebP', imgsW.every(i => i.atual.endsWith('.webp')),
+     imgsW.filter(i => !i.atual.endsWith('.webp')).map(i => i.atual.split('/').pop()).join(' | '));
+
+  // o JPG/PNG continua no lugar, para navegadores sem WebP
+  const status = await pW.evaluate(async lista => {
+    const r = [];
+    for (const u of lista) r.push([u, (await fetch(u, { method: 'HEAD' })).status]);
+    return r;
+  }, imgsW.flatMap(i => [i.src, i.webp]));
+  const quebrados = status.filter(([, st]) => st !== 200);
+  ok('arquivo original e WebP existem para todas', quebrados.length === 0, quebrados.map(q => q.join(' ')).join(' | '));
+
+  ok('foto do topo baixada uma vez so (preload e <picture> pedem o mesmo arquivo)',
+     pedidosTopo.length === 1 && pedidosTopo[0].endsWith('.webp'), pedidosTopo.join(', ') || 'nenhum pedido');
+
+  const og = await pW.evaluate(async () => {
+    const m = n => (document.querySelector('meta[property="' + n + '"]') || {}).content;
+    const caminho = new URL(m('og:image')).pathname;
+    const img = new Image(); img.src = caminho; await img.decode();
+    return { w: m('og:image:width'), h: m('og:image:height'), real: img.naturalWidth + 'x' + img.naturalHeight, caminho };
+  });
+  ok('previa de compartilhamento declarada em 1200x630', og.w === '1200' && og.h === '630', og.w + 'x' + og.h);
+  ok('arquivo da previa existe e tem 1200x630 de verdade', og.real === '1200x630', og.caminho + ' ' + og.real);
+  await ctxW.close();
   await browser.close();
   console.log(`\n${'='.repeat(58)}\n  ${pass} passaram, ${fail} falharam\n${'='.repeat(58)}`);
   process.exit(fail ? 1 : 0);

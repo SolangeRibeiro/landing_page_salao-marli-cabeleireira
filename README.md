@@ -88,7 +88,7 @@ Depois acesse `http://localhost:8000`.
 ## Testes
 
 A pasta `tests/` tem uma suíte que abre a página num navegador de verdade e
-roda 91 verificações: imagens, preços, menu no celular, responsividade de
+roda 97 verificações: imagens, preços, menu no celular, responsividade de
 280px a 2560px, acessibilidade e o funcionamento sem JavaScript.
 
 ```bash
@@ -115,6 +115,22 @@ var CONFIG = {
 ```
 
 **Cores:** todas no bloco `:root` do topo de `assets/css/styles.css`.
+
+**Fotos:** cada imagem existe em dois formatos: o original (`.jpg` ou `.png`)
+e uma versão `.webp`, cerca de 45% mais leve, que é a que os navegadores
+atuais baixam. O original fica como reserva para navegadores antigos.
+**Ao trocar uma foto, gere também o `.webp` com o mesmo nome** — senão o
+navegador continua mostrando a foto antiga. Dá para converter no
+[Squoosh](https://squoosh.app), direto no navegador (formato WebP,
+qualidade 80), ou no terminal:
+
+```bash
+brew install webp
+cwebp -q 80 assets/img/nova-foto.jpg -o assets/img/nova-foto.webp
+```
+
+**Prévia ao compartilhar:** `assets/img/og-marli-cabeleireira.jpg` (1200×630)
+é a imagem que aparece quando o link é enviado no WhatsApp ou nas redes.
 
 **Preços e serviços:** cada serviço é um `<article class="service">` em `index.html`.
 Ao alterar um valor, atualize também o bloco `application/ld+json` do `<head>`.

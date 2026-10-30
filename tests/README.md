@@ -1,7 +1,7 @@
 # Testes
 
 Suíte que abre a página num navegador de verdade (Chromium, pelo Playwright) e
-confere **91 verificações** — o tipo de coisa que não dá para garantir só lendo
+confere **97 verificações** — o tipo de coisa que não dá para garantir só lendo
 o código.
 
 ## Instalação
@@ -62,6 +62,7 @@ BASE=https://www.marlicabeleireira.com.br/ node tests/testes.js
 | 17. Navegador antigo | Tudo funciona sem `IntersectionObserver` |
 | 18. Desempenho | Só um ouvinte de rolagem registrado, não dois |
 | 19. Medição | Desligada por padrão não carrega nada; ligada, registra o serviço certo a cada clique |
+| 20. Imagens e prévia | Navegador recebe WebP, original existe como reserva, foto do topo baixada uma vez só, prévia de compartilhamento em 1200×630 |
 
 ## Quando rodar
 
