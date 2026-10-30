@@ -17,6 +17,22 @@ if ! node -e "require('playwright')" 2>/dev/null; then
   exit 1
 fi
 
+# Checagem de sintaxe primeiro: e instantanea, e um erro aqui derruba a pagina
+# inteira. Pega, por exemplo, aspas curvas que editores de texto inserem sozinhos.
+for arquivo in assets/js/main.js tests/testes.js; do
+  if ! node --check "$arquivo" 2>/tmp/erro-sintaxe.txt; then
+    echo
+    echo "ERRO DE SINTAXE em $arquivo — a pagina nao vai funcionar assim:"
+    echo
+    sed 's/^/  /' /tmp/erro-sintaxe.txt
+    echo
+    echo "Dica: se voce editou o arquivo num editor de texto comum, ele pode ter"
+    echo "trocado as aspas retas ' por aspas curvas. Para desfazer a edicao:"
+    echo "  git checkout $arquivo"
+    exit 1
+  fi
+done
+
 python3 -m http.server "$PORTA" >/dev/null 2>&1 &
 SERVIDOR=$!
 trap 'kill $SERVIDOR 2>/dev/null' EXIT

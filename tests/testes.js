@@ -31,6 +31,18 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
   const externas = u => /fonts\.googleapis|fonts\.gstatic|google\.com\/maps/.test(u);
   ok('sem erro de JS no console', erros.filter(e => !/fonts|maps|ERR_/.test(e)).length === 0, erros.join(' | '));
   ok('nenhum arquivo local faltando (404)', falhas.filter(u => !externas(u)).length === 0, falhas.filter(u => !externas(u)).join(' | '));
+
+  // Um erro de sintaxe derruba todo o JavaScript: menu, links e animacoes param
+  // juntos. Seguir testando so produziria dezenas de falhas em cascata.
+  if (erros.some(e => e.startsWith('pageerror:'))) {
+    console.log('\n' + '='.repeat(58));
+    console.log('  O JavaScript da pagina quebrou. Nada mais foi testado.');
+    console.log('  Rode:  node --check assets/js/main.js');
+    console.log('  Para desfazer uma edicao:  git checkout assets/js/main.js');
+    console.log('='.repeat(58));
+    await browser.close();
+    process.exit(1);
+  }
   const nExternas = falhas.filter(externas).length;
   if (nExternas) console.log('       (' + nExternas + ' recurso(s) externo(s) nao carregaram: fontes do Google ou mapa. Sem internet, e esperado.)');
 
