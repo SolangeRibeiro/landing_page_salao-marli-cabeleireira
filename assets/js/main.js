@@ -115,18 +115,20 @@
         waFloat.classList.toggle('is-visible', !e[0].isIntersecting);
       }).observe(alvoFloat);
     }
-  }
+  } else {
+    // Fallback por evento de scroll (navegadores sem IntersectionObserver)
+    var travado = false;
+    window.addEventListener('scroll', function () {
+      if (travado) return;
+      travado = true;
+      window.requestAnimationFrame(function () {
+        aoRolar();
+        travado = false;
+      });
+    }, { passive: true });
 
-  // Fallback por evento de scroll (navegadores sem IntersectionObserver)
-  var travado = false;
-  window.addEventListener('scroll', function () {
-    if (travado) return;
-    travado = true;
-    window.requestAnimationFrame(function () {
-      aoRolar();
-      travado = false;
-    });
-  }, { passive: true });
+    aoRolar();   // estado inicial, caso a pagina abra ja rolada
+  }
 
   /* 4. Rolagem suave (fallback) */
   $$('a[href^="#"]').forEach(function (a) {
