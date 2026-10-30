@@ -28,7 +28,7 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
   await page.goto(BASE, { waitUntil: 'load' });
   await page.waitForTimeout(1200);
 
-  const externas = u => /fonts\.googleapis|fonts\.gstatic|google\.com\/maps/.test(u);
+  const externas = u => /fonts\.googleapis|fonts\.gstatic|google\.com\/maps|umami\.is/.test(u);
   ok('sem erro de JS no console', erros.filter(e => !/fonts|maps|ERR_/.test(e)).length === 0, erros.join(' | '));
   ok('nenhum arquivo local faltando (404)', falhas.filter(u => !externas(u)).length === 0, falhas.filter(u => !externas(u)).join(' | '));
 
@@ -325,8 +325,16 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
   // ---------- 19. medicao de acessos e cliques ----------
   console.log('\n[19] Medicao de acessos e de cliques');
 
-  // (a) desligada por padrao: nada e carregado
+  // reescreve o ID do CONFIG ao servir o main.js, para testar os dois estados
+  const comId = id => async route => {
+    const r = await route.fetch();
+    const corpo = (await r.text()).replace(/umamiId: '[^']*'/, "umamiId: '" + id + "'");
+    route.fulfill({ response: r, body: corpo, headers: { ...r.headers(), 'content-type': 'application/javascript' } });
+  };
+
+  // (a) com o ID vazio, nada e carregado
   const ctxM = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctxM.route('**/assets/js/main.js', comId(''));
   let pedidosUmami = 0;
   await ctxM.route('**://*.umami.is/**', r => { pedidosUmami++; r.abort(); });
   const pM = await ctxM.newPage();
@@ -341,11 +349,7 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
 
   // (b) ligada: simula o ID preenchido e o script do Umami ja carregado
   const ctxL2 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
-  await ctxL2.route('**/assets/js/main.js', async route => {
-    const r = await route.fetch();
-    const corpo = (await r.text()).replace("umamiId: ''", "umamiId: 'id-de-teste'");
-    route.fulfill({ response: r, body: corpo, headers: { ...r.headers(), 'content-type': 'application/javascript' } });
-  });
+  await ctxL2.route('**/assets/js/main.js', comId('id-de-teste'));
   await ctxL2.route('**://*.umami.is/script.js', route =>
     route.fulfill({ contentType: 'application/javascript',
       body: 'window.umami={track:function(n,d){window.__eventos=window.__eventos||[];window.__eventos.push({nome:n,dados:d});}};' }));
@@ -353,6 +357,8 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
   await pL2.goto(BASE); await pL2.waitForTimeout(1200);
   ok('com o ID preenchido, a tag e injetada com o ID certo',
      await pL2.$eval('script[data-website-id]', e => e.getAttribute('data-website-id')) === 'id-de-teste');
+  ok('so conta acessos do dominio do salao (localhost fica de fora)',
+     (await pL2.$eval('script[data-website-id]', e => e.getAttribute('data-domains') || '')).includes('marlicabeleireira.com.br'));
 
   const clicar = sel => pL2.$eval(sel, e => { e.removeAttribute('target'); e.setAttribute('href', 'javascript:void 0'); e.click(); });
   await clicar('article.service [data-servico="Mechas"]'); await pL2.waitForTimeout(250);

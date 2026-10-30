@@ -13,11 +13,15 @@
     // pelo nome do servico do card.
     mensagemServico: 'Olá, Marli! Gostaria de agendar um horário para {servico}. Poderia me informar os horários disponíveis?',
 
-    // Medicao de acessos (Umami). Cole abaixo o ID do site, que aparece no
-    // painel do Umami em Settings > Websites > Edit. Enquanto estiver vazio,
-    // nada e carregado e nenhuma medicao acontece.
-    umamiId: '',
-    umamiScript: 'https://cloud.umami.is/script.js'
+    // Medicao de acessos (Umami). So o ID do site, no formato do exemplo
+    // abaixo - nao a tag <script> inteira. Ele aparece no painel do Umami em
+    // Settings > Websites > Edit. Com o ID vazio, nada e carregado.
+    umamiId: '68cde42c-46a3-41db-87fa-26bb4c195d6d',
+    umamiScript: 'https://cloud.umami.is/script.js',
+
+    // So conta acessos vindos destes enderecos: os testes e as visualizacoes
+    // no proprio computador (localhost) ficam fora da contagem.
+    umamiDominios: 'www.marlicabeleireira.com.br,marlicabeleireira.com.br'
   };
 
   /*  utilidades */
@@ -237,6 +241,7 @@
     medidor.defer = true;
     medidor.src = CONFIG.umamiScript;
     medidor.setAttribute('data-website-id', CONFIG.umamiId);
+    if (CONFIG.umamiDominios) medidor.setAttribute('data-domains', CONFIG.umamiDominios);
     document.head.appendChild(medidor);
   }
 

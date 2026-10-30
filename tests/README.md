@@ -1,7 +1,7 @@
 # Testes
 
 Suíte que abre a página num navegador de verdade (Chromium, pelo Playwright) e
-confere **90 verificações** — o tipo de coisa que não dá para garantir só lendo
+confere **91 verificações** — o tipo de coisa que não dá para garantir só lendo
 o código.
 
 ## Instalação

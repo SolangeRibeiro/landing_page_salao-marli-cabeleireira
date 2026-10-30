@@ -88,7 +88,7 @@ Depois acesse `http://localhost:8000`.
 ## Testes
 
 A pasta `tests/` tem uma suíte que abre a página num navegador de verdade e
-roda 90 verificações: imagens, preços, menu no celular, responsividade de
+roda 91 verificações: imagens, preços, menu no celular, responsividade de
 280px a 2560px, acessibilidade e o funcionamento sem JavaScript.
 
 ```bash
