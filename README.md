@@ -85,6 +85,22 @@ python -m http.server 8000
 
 Depois acesse `http://localhost:8000`.
 
+## Testes
+
+A pasta `tests/` tem uma suíte que abre a página num navegador de verdade e
+roda 83 verificações: imagens, preços, menu no celular, responsividade de
+280px a 2560px, acessibilidade e o funcionamento sem JavaScript.
+
+```bash
+bash tests/rodar.sh
+```
+
+Vale rodar antes de publicar, sobretudo **ao alterar um preço**: a suíte cruza
+o valor do card com o dos dados estruturados e com o que as respostas das
+dúvidas dizem — é onde um valor desatualizado passa despercebido e acaba
+aparecendo errado na busca do Google. Instalação e detalhes em
+[`tests/README.md`](tests/README.md).
+
 ## Personalização
 
 **Número e mensagem do WhatsApp:** edite apenas o bloco `CONFIG` no topo de

@@ -12,6 +12,10 @@ $RECYCLE.BIN/
 *.swp
 *~
 
+# Dependências de teste (o site em si não tem nenhuma)
+node_modules/
+package-lock.json
+
 # Arquivos temporários e pacotes gerados
 *.zip
 *.log
