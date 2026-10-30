@@ -31,7 +31,8 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
   const externas = u => /fonts\.googleapis|fonts\.gstatic|google\.com\/maps/.test(u);
   ok('sem erro de JS no console', erros.filter(e => !/fonts|maps|ERR_/.test(e)).length === 0, erros.join(' | '));
   ok('nenhum arquivo local faltando (404)', falhas.filter(u => !externas(u)).length === 0, falhas.filter(u => !externas(u)).join(' | '));
-  console.log('       (bloqueios externos esperados neste sandbox: ' + falhas.filter(externas).length + ')');
+  const nExternas = falhas.filter(externas).length;
+  if (nExternas) console.log('       (' + nExternas + ' recurso(s) externo(s) nao carregaram: fontes do Google ou mapa. Sem internet, e esperado.)');
 
   // ---------- 2. imagens ----------
   console.log('\n[2] Imagens');
@@ -308,6 +309,51 @@ const ok  = (n, c, d='') => { c ? (pass++, console.log('  OK   ' + n)) : (fail++
   const n = await pL.evaluate(() => window.__scrollListeners);
   ok('navegador moderno registra 1 ouvinte de scroll, nao 2', n === 1, 'registrou ' + n);
   await ctxL.close();
+
+  // ---------- 19. medicao de acessos e cliques ----------
+  console.log('\n[19] Medicao de acessos e de cliques');
+
+  // (a) desligada por padrao: nada e carregado
+  const ctxM = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  let pedidosUmami = 0;
+  await ctxM.route('**://*.umami.is/**', r => { pedidosUmami++; r.abort(); });
+  const pM = await ctxM.newPage();
+  await pM.goto(BASE); await pM.waitForTimeout(900);
+  ok('com o ID vazio, nenhum script de medicao e carregado', pedidosUmami === 0, pedidosUmami + ' requisicao(oes)');
+  ok('nenhuma tag de medicao injetada na pagina',
+     await pM.$$eval('script[data-website-id]', e => e.length === 0));
+  await pM.click('.hero .btn--primary', { modifiers: [] }).catch(() => {});
+  await pM.waitForTimeout(300);
+  ok('clicar num botao nao quebra a pagina com a medicao desligada', true);
+  await ctxM.close();
+
+  // (b) ligada: simula o ID preenchido e o script do Umami ja carregado
+  const ctxL2 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  await ctxL2.route('**/assets/js/main.js', async route => {
+    const r = await route.fetch();
+    const corpo = (await r.text()).replace("umamiId: ''", "umamiId: 'id-de-teste'");
+    route.fulfill({ response: r, body: corpo, headers: { ...r.headers(), 'content-type': 'application/javascript' } });
+  });
+  await ctxL2.route('**://*.umami.is/script.js', route =>
+    route.fulfill({ contentType: 'application/javascript',
+      body: 'window.umami={track:function(n,d){window.__eventos=window.__eventos||[];window.__eventos.push({nome:n,dados:d});}};' }));
+  const pL2 = await ctxL2.newPage();
+  await pL2.goto(BASE); await pL2.waitForTimeout(1200);
+  ok('com o ID preenchido, a tag e injetada com o ID certo',
+     await pL2.$eval('script[data-website-id]', e => e.getAttribute('data-website-id')) === 'id-de-teste');
+
+  const clicar = sel => pL2.$eval(sel, e => { e.removeAttribute('target'); e.setAttribute('href', 'javascript:void 0'); e.click(); });
+  await clicar('article.service [data-servico="Mechas"]'); await pL2.waitForTimeout(250);
+  await clicar('.hero .btn--primary');                      await pL2.waitForTimeout(250);
+  await clicar('.footer__credito a');                       await pL2.waitForTimeout(250);
+  const ev = await pL2.evaluate(() => window.__eventos || []);
+  ok('clique no card de Mechas registra o servico',
+     ev.some(e => e.nome === 'whatsapp' && e.dados && e.dados.servico === 'Mechas'), JSON.stringify(ev));
+  ok('clique no botao geral registra como "geral"',
+     ev.some(e => e.nome === 'whatsapp' && e.dados && e.dados.servico === 'geral'), JSON.stringify(ev));
+  ok('clique na assinatura registra contato-axis',
+     ev.some(e => e.nome === 'contato-axis'), JSON.stringify(ev));
+  await ctxL2.close();
 
   await browser.close();
   console.log(`\n${'='.repeat(58)}\n  ${pass} passaram, ${fail} falharam\n${'='.repeat(58)}`);

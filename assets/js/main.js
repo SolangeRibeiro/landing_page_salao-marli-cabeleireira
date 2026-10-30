@@ -11,7 +11,13 @@
 
     // Mensagem dos botoes dos cards de servico.
     // pelo nome do servico do card.
-    mensagemServico: 'Olá, Marli! Gostaria de agendar um horário para {servico}. Poderia me informar os horários disponíveis?'
+    mensagemServico: 'Olá, Marli! Gostaria de agendar um horário para {servico}. Poderia me informar os horários disponíveis?',
+
+    // Medicao de acessos (Umami). Cole abaixo o ID do site, que aparece no
+    // painel do Umami em Settings > Websites > Edit. Enquanto estiver vazio,
+    // nada e carregado e nenhuma medicao acontece.
+    umamiId: '',
+    umamiScript: 'https://cloud.umami.is/script.js'
   };
 
   /*  utilidades */
@@ -222,5 +228,46 @@
   /* 7. Ano no rodape */
   var ano = $('#ano');
   if (ano) ano.textContent = new Date().getFullYear();
+
+  /* 8. Medicao de acessos e de cliques */
+  // O Umami nao usa cookies e nao identifica a pessoa: conta a visita e o
+  // clique, nada mais. Por isso a pagina nao precisa de aviso de cookies.
+  if (CONFIG.umamiId) {
+    var medidor = document.createElement('script');
+    medidor.defer = true;
+    medidor.src = CONFIG.umamiScript;
+    medidor.setAttribute('data-website-id', CONFIG.umamiId);
+    document.head.appendChild(medidor);
+  }
+
+  // Registra um evento. Se a medicao estiver desligada ou o script ainda nao
+  // tiver carregado, nao faz nada - nunca quebra a pagina nem atrapalha o clique.
+  function registrar(evento, dados) {
+    try {
+      if (window.umami && typeof window.umami.track === 'function') {
+        window.umami.track(evento, dados);
+      }
+    } catch (e) { /* medicao nunca pode atrapalhar o site */ }
+  }
+
+  // Cada botao de WhatsApp ja sabe de qual servico e, pelo data-servico:
+  // da para ver qual servico mais gera contato.
+  $$('[data-wa]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      registrar('whatsapp', { servico: el.getAttribute('data-servico') || 'geral' });
+    });
+  });
+
+  // Botao que abre o endereco no Google Maps
+  var verLocal = $('.location__card .btn--primary');
+  if (verLocal) {
+    verLocal.addEventListener('click', function () { registrar('ver-localizacao'); });
+  }
+
+  // Assinatura no rodape: quem procura quem fez o site
+  var credito = $('.footer__credito a');
+  if (credito) {
+    credito.addEventListener('click', function () { registrar('contato-axis'); });
+  }
 
 })();

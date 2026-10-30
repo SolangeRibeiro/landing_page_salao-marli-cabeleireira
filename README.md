@@ -88,7 +88,7 @@ Depois acesse `http://localhost:8000`.
 ## Testes
 
 A pasta `tests/` tem uma suíte que abre a página num navegador de verdade e
-roda 83 verificações: imagens, preços, menu no celular, responsividade de
+roda 90 verificações: imagens, preços, menu no celular, responsividade de
 280px a 2560px, acessibilidade e o funcionamento sem JavaScript.
 
 ```bash
@@ -118,6 +118,36 @@ var CONFIG = {
 
 **Preços e serviços:** cada serviço é um `<article class="service">` em `index.html`.
 Ao alterar um valor, atualize também o bloco `application/ld+json` do `<head>`.
+
+## Medição de acessos
+
+A página pode contar visitas e registrar em quais botões as pessoas clicam,
+usando o [Umami](https://umami.is). Vem **desligada**: enquanto o ID estiver
+vazio, nada é carregado e nenhuma requisição externa acontece.
+
+Para ligar, crie a conta, cadastre o site e cole o ID no bloco `CONFIG` de
+`assets/js/main.js`:
+
+```js
+umamiId: 'cole-aqui-o-id-do-site',
+```
+
+O ID aparece no painel do Umami em **Settings → Websites → Edit**.
+
+São registrados três eventos:
+
+| Evento | Quando acontece |
+|---|---|
+| `whatsapp` | Clique em qualquer um dos 28 botões de agendamento. Vem com o nome do serviço, ou `geral` nos botões que não são de um serviço específico |
+| `ver-localizacao` | Clique no botão que abre o endereço no Google Maps |
+| `contato-axis` | Clique na assinatura do rodapé |
+
+O evento `whatsapp` é o mais útil: cruzando com o total de visitas, mostra
+quantas pessoas de fato procuram o salão e qual serviço puxa mais procura.
+
+O Umami **não usa cookies e não identifica a pessoa** — conta a visita e o
+clique, nada mais. Por isso a página não precisa de aviso de cookies, o que
+seria obrigatório com o Google Analytics.
 
 ## Créditos
 

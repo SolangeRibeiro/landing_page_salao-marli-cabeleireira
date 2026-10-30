@@ -1,7 +1,7 @@
 # Testes
 
 Suíte que abre a página num navegador de verdade (Chromium, pelo Playwright) e
-confere **83 verificações** — o tipo de coisa que não dá para garantir só lendo
+confere **90 verificações** — o tipo de coisa que não dá para garantir só lendo
 o código.
 
 ## Instalação
@@ -61,6 +61,7 @@ BASE=https://www.marlicabeleireira.com.br/ node tests/testes.js
 | 16b. Assinatura | O link da AXIS não é sobrescrito pelo número do salão |
 | 17. Navegador antigo | Tudo funciona sem `IntersectionObserver` |
 | 18. Desempenho | Só um ouvinte de rolagem registrado, não dois |
+| 19. Medição | Desligada por padrão não carrega nada; ligada, registra o serviço certo a cada clique |
 
 ## Quando rodar
 
