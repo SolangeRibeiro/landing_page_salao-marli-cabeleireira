@@ -5,7 +5,7 @@ Construída em HTML, CSS e JavaScript puros, sem frameworks, sem dependências e
 
 ![Prévia da landing page no computador e no celular](docs/preview.jpg)
 
-🔗 **[marli-cabeleireira.netlify.app](https://marli-cabeleireira.netlify.app)**
+🔗 **[www.marlicabeleireira.com.br](https://www.marlicabeleireira.com.br)**
 
 ---
 

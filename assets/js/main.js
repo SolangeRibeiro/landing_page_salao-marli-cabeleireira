@@ -159,15 +159,41 @@
       });
     });
 
+    function revelar(el) {
+      el.classList.add('is-in');
+      observador.unobserve(el);
+    }
+
     var observador = new IntersectionObserver(function (entradas) {
       entradas.forEach(function (entrada) {
-        if (!entrada.isIntersecting) return;
-        entrada.target.classList.add('is-in');
-        observador.unobserve(entrada.target);
+        // Tambem revela o que a pagina abriu ja tendo passado: com um link "#"
+        // na URL ou com o navegador restaurando a rolagem, o elemento nunca
+        // cruza a tela e ficaria invisivel para sempre.
+        if (entrada.isIntersecting || entrada.boundingClientRect.bottom < 0) {
+          revelar(entrada.target);
+        }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
     reveals.forEach(function (el) { observador.observe(el); });
+
+    // Num salto instantaneo (tecla End, Ctrl+F, clique na barra de rolagem) o
+    // elemento pula de "abaixo da tela" para "acima da tela" sem nunca estar
+    // visivel: o observador nao dispara, e so esta varredura o recupera.
+    var varrendo = false;
+    window.addEventListener('scroll', function () {
+      if (varrendo || !reveals.length) return;
+      varrendo = true;
+      window.requestAnimationFrame(function () {
+        reveals = reveals.filter(function (el) {
+          if (el.classList.contains('is-in')) return false;
+          if (el.getBoundingClientRect().bottom >= 0) return true;
+          revelar(el);
+          return false;
+        });
+        varrendo = false;
+      });
+    }, { passive: true });
   }
 
   /* 6. Link ativo na navegacao */
