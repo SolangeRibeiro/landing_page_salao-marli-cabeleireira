@@ -1124,6 +1124,27 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
 .footer__contact a:hover{color:#fff}
 .site-footer .btn{margin-top:22px}
 
+/* Assinatura de quem desenvolveu o site */
+.footer__credito{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding-block:16px 22px;
+  text-align:center;
+  font-size:.78rem;
+  line-height:1.6;
+  color:rgba(255,255,255,.4);
+}
+.footer__credito a{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;                 /* alvo de toque */
+  margin-block:-11px;              /* sem alterar o espacamento visual */
+  color:rgba(255,255,255,.74);
+  transition:color .3s var(--ease);
+}
+.footer__credito a:hover{color:#fff}
+.footer__credito a .ico{font-size:1rem;color:var(--lilac-400)}
+.footer__credito strong{font-weight:500;letter-spacing:.2em}
+.footer__credito span{display:block;margin-top:10px}
+
 .site-footer__bottom{
   border-top:1px solid rgba(255,255,255,.1);
   padding-block:24px;
@@ -1253,6 +1274,10 @@ h3{font-size:clamp(1.1rem, 1.7vw, 1.26rem);line-height:1.3;letter-spacing:-.01em
   .site-footer__grid{grid-template-columns:1fr;gap:34px}
   .footer__desc{max-width:none}
   .site-footer__bottom{justify-content:center;text-align:center}
+
+  /* a assinatura e a ultima coisa da pagina: abre espaco para o botao
+     flutuante, que e fixo e cobriria o texto no fim da rolagem */
+  .footer__credito{padding-bottom:calc(78px + env(safe-area-inset-bottom, 0px))}
 
   /* botao flutuante compacto no celular */
   .wa-float{padding:12px;gap:0}
